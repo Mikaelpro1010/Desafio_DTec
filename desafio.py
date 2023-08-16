@@ -1,3 +1,4 @@
+#base de dados onde serão armazenados os dados de funcionário e cargos
 employee_data = [
     {"code": 15, "name": "João da Silva", "cargo": 1},
     {"code": 1, "name": "Pedro Santos", "cargo": 2},
@@ -21,7 +22,7 @@ def exibirRelatorio():
     print("                   RELATÓRIO                        ")
     print("----------------------------------------------------")
 
-    #busca na base de dados os dados de cada funcionário
+    #buscar na base de dados os dados de cada funcionário
     for employee in employee_data:
         for cargo in cargos:
             if employee["cargo"] == cargo["codigo"]:
@@ -67,13 +68,15 @@ def checkExistingCode(new_code_employee):
             cadastrarFuncionario()
 
 #função que possui como finalidade checar se o cargo já existe na lista de cargos
-# def checkExistingCodeCargo(new_cargo):
-#     if new_cargo in code_cargo:
-#         print("Usuario cadastrado com sucesso!")
-#     else:
-#         print("Não foi possível realizar o cadastro!!")
-#         cadastrarFuncionario()
+def checkExistingCodeCargo(new_cargo):
+        # verifica se pelo menos um item na lista de cargos tem o código de cargo correspondente ao valor de new_cargo
+        if any(new_cargo == cargo["codigo"] for cargo in cargos):
+            print("Usuário cadastrado com sucesso!")
+        else:
+            print("Não foi possível realizar o cadastro, cargo informado não existe!")
+            cadastrarFuncionario()
 
+#função que como objetivo mostrar ao usuário as opções de cargos existentes para cadastro         
 def exibirCodigoCargo():
     print("                    Cargos Disponíveis                                  ")
     for cargo in cargos:
@@ -82,7 +85,7 @@ def exibirCodigoCargo():
 #função responsável por cadastrar um novo funcionário
 def cadastrarFuncionario():
     print("------------------------------------------------------------------------")
-    print("                  Cadastro de Funcioonário                              ")
+    print("                  Cadastro de Funcionário                              ")
     print("------------------------------------------------------------------------")
 
     new_name = input("Informe o nome do seu funcinário: ")
@@ -93,7 +96,7 @@ def cadastrarFuncionario():
     exibirCodigoCargo()
 
     new_cargo = int(input("Informe o cargo deste funcionário: "))
-    # checkExistingCodeCargo(new_cargo)
+    checkExistingCodeCargo(new_cargo)
 
     #armazenando os novos dados do funcionário na base de dados
     employee_data.append({"code": new_code_employee, "name": new_name, "cargo": new_cargo})
@@ -105,6 +108,7 @@ def menu():
     print("1 - Cadastrar Cargo\n2 - Cadastrar Funcionário\n3 - Exibir Relatório\n4 - Exibir Salário Total")
     option = input("Bem vindo, o que deseja fazer?")
 
+    #condicionais de acesso a funcionalidades do sistema de acordo com a opcao desejada pelo usuário
     if option == "1":
         cadastrarCargo()
     elif option == "2":
@@ -113,7 +117,8 @@ def menu():
         exibirRelatorio()
     elif option == "4":
         exibirSalarioTotal()
-    
+
+#função principal do código, sendo a mesma responsável por dar o start inicial do sistema
 def main():
     continuar = True
 
@@ -123,4 +128,6 @@ def main():
         if resposta.lower() != 'yes':
             continuar = False
             print("Encerrando o programa...")
+
+#chamando a função main para dar inicio a execução do sistema
 main()
